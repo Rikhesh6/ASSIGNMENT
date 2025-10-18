@@ -12,28 +12,29 @@ Write a 8051 c program to generate a square wave with frequency of 50khz
 #### Program
 
 ```
-CODE SEGMENT
-ASSUME CS: CODE, DS: CODE
-ORG 1000H
-MOV SI,1200H
-MOV CL,00H
-MOV AX,[SI]
-MOV BX,[SI+02H]
-ADD AX,BX
-JNC L1
-INC CL
-L1:MOV [SI+04H],AX
-MOV [SI+06H],CL
-MOV AH,4CH
-INT 21H
-CODE ENDS
-END
+#include <reg51.h>   
+void delay(unsigned int);  
+void main() {
+    while(1) {
+        P0 = 0x00;      
+        delay(6);       
+        P0 = 0xFF;      
+        delay(6);       
+    }
+}
+void delay(unsigned int count) {
+    unsigned int i, j;
+    for(i = 0; i < count; i++)
+        for(j = 0; j < 1000; j++); 
+}
+
 ```
 
 
 ---
 
 ## OUTPUT IMAGE FROM KEIL SOFTWARE
+<img width="1919" height="927" alt="image" src="https://github.com/user-attachments/assets/dac4b464-6569-4dbd-ac2d-c3e31fab5487" />
 
 
 
@@ -56,21 +57,16 @@ Write a 8051 program to generate a square wave with frequency of 50khz
 #### Program
 
 ```
-CODE SEGMENT
-ASSUME CS: CODE, DS: CODE
-ORG 1000H
-MOV SI,1200H
-MOV CL,00H
-MOV AX,[SI]
-MOV BX,[SI+02H]
-ADD AX,BX
-JNC L1
-INC CL
-L1:MOV [SI+04H],AX
-MOV [SI+06H],CL
-MOV AH,4CH
-INT 21H
-CODE ENDS
+ORG 0000H
+L1:MOV A, #00H      
+MOV P0, A
+MOV R0, #6   
+L2: DJNZ R0,L2
+MOV A, #0FFH      
+MOV P0, A
+MOV R0, #6        
+L3: DJNZ R0,L3
+SJMP L1      
 END
 ```
 
@@ -78,3 +74,4 @@ END
 ---
 
 ## OUTPUT IMAGE FROM KEIL SOFTWARE
+<img width="1919" height="865" alt="image" src="https://github.com/user-attachments/assets/d9f3464f-4a9e-4ec8-80e6-0f24417f0d22" />
